@@ -55,33 +55,28 @@
     </header>
 
     <div class="container">
+        <!-- Global Community Chat Panel -->
         <div class="panel">
-            <h2>WhatsApp-Style Secure Chat & Friends</h2>
-            <div style="margin-bottom: 15px;">
-                <input type="text" id="searchUser" placeholder="Search gamer by username..." style="display:inline-block; width:75%;">
-                <button class="action-btn" onclick="sendFriendRequest()" style="width:22%;">Add</button>
-            </div>
-            <div class="chat-layout">
-                <div class="sidebar-list" id="friendsList">
-                    <p style="font-size:0.8rem; color:var(--text-muted);">Accepted Friends (0)</p>
-                </div>
+            <h2>Global Gamer Community Chat</h2>
+            <div class="chat-layout" style="grid-template-columns: 1fr; height: 300px;">
                 <div class="chat-window">
-                    <div class="message-box" id="activeChatBox">
-                        <div>Select a friend to start chatting like WhatsApp.</div>
+                    <div class="message-box" id="globalChatBox">
+                        <div>Connecting to global network...</div>
                     </div>
                     <div style="display:flex; gap:5px;">
-                        <input type="text" id="chatMessageInput" placeholder="Type a message..." style="margin:0;">
-                        <button class="action-btn" onclick="sendChatMessage()">Send</button>
+                        <input type="text" id="globalMessageInput" placeholder="Broadcast to all gamers..." style="margin:0;">
+                        <button class="action-btn" onclick="sendGlobalMessage()">Broadcast</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Firebase Auth Integration for Profile & Sign-in -->
+    <!-- Firebase SDK & Firestore Integration -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, GoogleAuthProvider, signInWithRedirect, getRedirectResult, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getFirestore, collection, addFirestoreData, query, orderBy, onSnapshot, serverTimestamp, addDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         const firebaseConfig = {
           apiKey: "AIzaSyBLjm_Fm3rf6xArbVQm8NsHeMZAQAtYho8",
@@ -94,6 +89,7 @@
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
+        const db = getFirestore(app);
         const provider = new GoogleAuthProvider();
 
         window.signInWithGoogle = function() {
@@ -110,25 +106,42 @@
             }
         });
 
-        window.sendFriendRequest = function() {
-            const username = document.getElementById('searchUser').value;
-            const user = auth.currentUser;
-            if(!user) { alert("Please sign in first via Google!"); signInWithRedirect(auth, provider); return; }
-            if(!username) return;
-            alert(`Friend request sent to ${username}! They must accept before secure WhatsApp chat unlocks.`);
-            document.getElementById('searchUser').value = '';
-        }
+        // Real-time Global Chat Listener
+        const chatBox = document.getElementById('globalChatBox');
+        const q = query(collection(db, "globalMessages"), orderBy("timestamp", "asc"));
 
-        window.sendChatMessage = function() {
-            const input = document.getElementById('chatMessageInput');
-            const chatBox = document.getElementById('activeChatBox');
-            const user = auth.currentUser;
-            if(!user) { alert("Please sign in first!"); return; }
-            if(!input.value) return;
-            chatBox.innerHTML += `<div style="margin-bottom:6px;"><strong style="color:var(--neon-cyan);">You (${user.displayName}):</strong> ${input.value}</div>`;
-            input.value = '';
+        onSnapshot(q, (snapshot) => {
+            chatBox.innerHTML = "";
+            if (snapshot.empty) {
+                chatBox.innerHTML = "<div>No messages yet. Be the first gamer to type something!</div>";
+                return;
+            }
+            snapshot.forEach((doc) => {
+                const msg = doc.data();
+                chatBox.innerHTML += `<div style="margin-bottom:6px;"><strong style="color:var(--neon-cyan);">${msg.sender}:</strong> ${msg.text}</div>`;
+            });
             chatBox.scrollTop = chatBox.scrollHeight;
-        }
+        });
+
+        window.sendGlobalMessage = async function() {
+            const input = document.getElementById('globalMessageInput');
+            const user = auth.currentUser;
+            if(!user) { alert("Please sign in with Google first!"); signInWithRedirect(auth, provider); return; }
+            if(!input.value.trim()) return;
+
+            try {
+                await addDoc(collection(db, "globalMessages"), {
+                    text: input.value,
+                    sender: user.displayName,
+                    uid: user.uid,
+                    timestamp: serverTimestamp()
+                });
+                input.value = '';
+            } catch (error) {
+                console.error("Error sending message: ", error);
+                alert("Could not send message. Make sure Firestore is enabled in your Firebase console!");
+            }
+        };
     </script>
 </body>
 </html>
