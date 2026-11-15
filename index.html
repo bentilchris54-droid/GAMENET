@@ -3,287 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GAMERSNET - Elite Gaming Hub</title>
+    <title>GAMERSNET - Home</title>
     <style>
         :root {
             --bg-deep: #050508;
             --bg-card: #0c0d14;
             --border-glow: #1f2235;
             --neon-cyan: #00f0ff;
-            --neon-purple: #b026ff;
-            --neon-green: #00ff66;
             --text-main: #f0f2f5;
             --text-muted: #8b9bb4;
         }
-
         body {
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-family: 'Segoe UI', Roboto, sans-serif;
             background-color: var(--bg-deep);
             color: var(--text-main);
             margin: 0;
             padding: 0;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
         }
-
         header {
-            background: linear-gradient(180deg, #0c0d14 0%, #050508 100%);
+            background: var(--bg-card);
             padding: 1rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
             border-bottom: 1px solid var(--border-glow);
-            box-shadow: 0 4px 20px rgba(0, 240, 255, 0.05);
         }
-
-        .logo {
-            font-size: 1.6rem;
-            font-weight: 900;
-            letter-spacing: 2px;
-            color: var(--neon-cyan);
-            text-shadow: 0 0 10px rgba(0, 240, 255, 0.4);
-            text-decoration: none;
-        }
-
-        .auth-btn {
-            background: transparent;
-            color: var(--neon-cyan);
-            border: 2px solid var(--neon-cyan);
-            padding: 8px 18px;
-            font-weight: bold;
-            border-radius: 4px;
-            cursor: pointer;
-            box-shadow: 0 0 10px rgba(0, 240, 255, 0.2);
-            transition: all 0.3s ease;
-        }
-
-        .auth-btn:hover {
-            background: var(--neon-cyan);
-            color: var(--bg-deep);
-            box-shadow: 0 0 20px rgba(0, 240, 255, 0.6);
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 0 1rem;
-            flex: 1;
-            width: 100%;
-            box-sizing: border-box;
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 20px;
-        }
-
-        @media(max-width: 900px) {
-            .container { grid-template-columns: 1fr; }
-        }
-
-        .panel {
-            background-color: var(--bg-card);
-            border: 1px solid var(--border-glow);
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
-        }
-
-        h2 {
-            font-size: 1.1rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--neon-cyan);
-            margin-top: 0;
-            border-left: 3px solid var(--neon-cyan);
-            padding-left: 10px;
-        }
-
-        input, textarea {
-            width: 100%;
-            padding: 12px;
-            background: #050508;
-            border: 1px solid var(--border-glow);
-            color: white;
-            border-radius: 6px;
-            margin-bottom: 10px;
-            box-sizing: border-box;
-            font-family: inherit;
-        }
-
-        input:focus, textarea:focus {
-            outline: none;
-            border-color: var(--neon-cyan);
-            box-shadow: 0 0 8px rgba(0, 240, 255, 0.3);
-        }
-
-        .action-btn {
-            background: linear-gradient(135deg, var(--neon-cyan), #0077ff);
-            color: #050508;
-            border: none;
-            padding: 10px 20px;
-            font-weight: bold;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: opacity 0.2s;
-        }
-
-        .action-btn:hover { opacity: 0.9; }
-
-        /* News Cards */
-        .news-card {
-            background: #050508;
-            border: 1px solid var(--border-glow);
-            border-radius: 6px;
-            padding: 12px;
-            margin-bottom: 12px;
-        }
-
-        .news-category {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            color: var(--neon-purple);
-            font-weight: bold;
-            letter-spacing: 1px;
-        }
-
-        .news-title {
-            font-size: 0.95rem;
-            font-weight: 600;
-            margin: 6px 0;
-            color: var(--text-main);
-        }
-
-        /* WhatsApp Style Chat & Friends UI */
-        .chat-layout {
-            display: grid;
-            grid-template-columns: 1fr 2fr;
-            height: 400px;
-            background: #050508;
-            border: 1px solid var(--border-glow);
-            border-radius: 6px;
-            overflow: hidden;
-        }
-
-        .sidebar-list {
-            border-right: 1px solid var(--border-glow);
-            overflow-y: auto;
-            padding: 10px;
-        }
-
-        .chat-window {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            padding: 15px;
-        }
-
-        .message-box {
-            flex: 1;
-            overflow-y: auto;
-            margin-bottom: 10px;
-            font-size: 0.9rem;
-            color: var(--text-muted);
-        }
-
-        .media-preview {
-            max-width: 100%;
-            border-radius: 6px;
-            margin-top: 8px;
-            max-height: 200px;
-            display: block;
-        }
-
-        footer {
-            text-align: center;
-            padding: 1.5rem;
-            background-color: #050508;
-            color: var(--text-muted);
-            border-top: 1px solid var(--border-glow);
-            font-size: 0.85rem;
-        }
+        .logo { font-size: 1.5rem; font-weight: 900; color: var(--neon-cyan); text-decoration: none; }
+        nav a { color: var(--text-muted); margin-left: 20px; text-decoration: none; font-weight: bold; }
+        nav a:hover, nav a.active { color: var(--neon-cyan); }
+        .container { max-width: 800px; margin: 2rem auto; padding: 0 1rem; }
+        .panel { background: var(--bg-card); border: 1px solid var(--border-glow); border-radius: 8px; padding: 20px; margin-bottom: 20px; }
+        textarea, input { width: 100%; padding: 12px; background: #050508; border: 1px solid var(--border-glow); color: white; border-radius: 6px; margin-bottom: 10px; box-sizing: border-box; }
+        .action-btn { background: var(--neon-cyan); color: var(--bg-deep); border: none; padding: 10px 20px; font-weight: bold; border-radius: 6px; cursor: pointer; }
+        .media-preview { max-width: 100%; border-radius: 6px; margin-top: 8px; max-height: 200px; display: block; }
     </style>
 </head>
 <body>
-
     <header>
-        <a href="#" class="logo">GAMERSNET</a>
-        <div id="authArea">
-            <button class="auth-btn" onclick="signInWithGoogle()">Sign in with Google</button>
-        </div>
+        <a href="index.html" class="logo">GAMERSNET</a>
+        <nav>
+            <a href="index.html" class="active">Feed</a>
+            <a href="news.html">News</a>
+            <a href="chats.html">Chats</a>
+        </nav>
     </header>
 
-    <div class="container" id="mainContent" style="display:none;">
-        <!-- Left Feed & Chat Section -->
-        <div>
-            <!-- Post Creation Panel -->
-            <div class="panel">
-                <h2>Broadcast & Share Media</h2>
-                <textarea id="postContent" placeholder="What's your legendary gaming moment today?"></textarea>
-                <input type="file" id="mediaInput" accept="image/*,video/*">
-                <button class="action-btn" onclick="createPost()">Publish Post</button>
-            </div>
-
-            <!-- WhatsApp Style Chat Hub -->
-            <div class="panel">
-                <h2>WhatsApp-Style Secure Chat & Friends</h2>
-                <div style="margin-bottom: 15px;">
-                    <input type="text" id="searchUser" placeholder="Search gamer by username..." style="display:inline-block; width:75%;">
-                    <button class="action-btn" onclick="sendFriendRequest()" style="width:22%;">Add</button>
-                </div>
-                <div class="chat-layout">
-                    <div class="sidebar-list" id="friendsList">
-                        <p style="font-size:0.8rem; color:var(--text-muted);">Accepted Friends (0)</p>
-                    </div>
-                    <div class="chat-window">
-                        <div class="message-box" id="activeChatBox">
-                            <div>Select a friend to start chatting like WhatsApp.</div>
-                        </div>
-                        <div style="display:flex; gap:5px;">
-                            <input type="text" id="chatMessageInput" placeholder="Type a message..." style="margin:0;">
-                            <button class="action-btn" onclick="sendChatMessage()">Send</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Community Feed -->
-            <div class="panel">
-                <h2>Global Feed</h2>
-                <div id="feedContainer">
-                    <p style="color: var(--text-muted);">Loading live community posts...</p>
-                </div>
-            </div>
+    <div class="container">
+        <div class="panel">
+            <h2>Broadcast & Share Media</h2>
+            <textarea id="postContent" placeholder="What's your legendary gaming moment today?"></textarea>
+            <input type="file" id="mediaInput" accept="image/*,video/*">
+            <button class="action-btn" onclick="createPost()">Publish Post</button>
         </div>
 
-        <!-- Right Live News & Sports Ticker -->
-        <div>
-            <div class="panel">
-                <h2>🔥 Live Updates</h2>
-                <div class="news-card">
-                    <div class="news-category">Gaming</div>
-                    <div class="news-title">Cyberpunk 2077 Sequel Enters Full Production Studio Phase</div>
-                </div>
-                <div class="news-card">
-                    <div class="news-category">Sports</div>
-                    <div class="news-title">Esports League World Championship Grand Finals Set for Saturday</div>
-                </div>
-                <div class="news-card">
-                    <div class="news-category">Movies</div>
-                    <div class="news-title">Sci-Fi Blockbuster Sequel Breaks Trailer View Records Online</div>
-                </div>
-            </div>
+        <div class="panel">
+            <h2>Global Feed</h2>
+            <div id="feedContainer"><p style="color:var(--text-muted);">Loading community posts...</p></div>
         </div>
     </div>
 
-    <footer>
-        <p>&copy; 2026 GAMERSNET. Black Ops Cyber Edition.</p>
-    </footer>
-
-    <!-- Firebase SDK Integration -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getAuth, GoogleAuthProvider, signInWithRedirect, getRedirectResult, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
         import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         const firebaseConfig = {
@@ -292,8 +73,7 @@
           projectId: "gamersnet-b9c7d",
           storageBucket: "gamersnet-b9c7d.firebasestorage.app",
           messagingSenderId: "706719567863",
-          appId: "1:706719567863:web:6bff33772a52af925368f2",
-          measurementId: "G-M5F43GTGS2"
+          appId: "1:706719567863:web:6bff33772a52af925368f2"
         };
 
         const app = initializeApp(firebaseConfig);
@@ -301,33 +81,16 @@
         const db = getFirestore(app);
         const provider = new GoogleAuthProvider();
 
-        window.signInWithGoogle = function() {
-            signInWithPopup(auth, provider).catch((error) => console.error("Login Error:", error));
-        };
-
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                document.getElementById('authArea').innerHTML = `<span style="color:var(--neon-cyan); font-weight:bold;">[ONLINE] ${user.displayName}</span>`;
-                document.getElementById('mainContent').style.display = 'grid';
-                loadFeed();
-            } else {
-                document.getElementById('authArea').innerHTML = `<button class="auth-btn" onclick="signInWithGoogle()">Sign in with Google</button>`;
-                document.getElementById('mainContent').style.display = 'none';
-            }
-        });
+        getRedirectResult(auth).catch((e) => console.error(e));
 
         window.createPost = async function() {
             const content = document.getElementById('postContent').value;
             const fileInput = document.getElementById('mediaInput');
             const user = auth.currentUser;
-            if (!content && fileInput.files.length === 0) return;
+            if(!user) { alert("Please sign in first via Google!"); signInWithRedirect(auth, provider); return; }
+            if(!content && fileInput.files.length === 0) return;
 
-            let mediaUrl = "";
-            if (fileInput.files.length > 0) {
-                const file = fileInput.files[0];
-                mediaUrl = URL.createObjectURL(file); // Local preview rendering for rapid deployment
-            }
-
+            let mediaUrl = fileInput.files.length > 0 ? URL.createObjectURL(fileInput.files[0]) : "";
             try {
                 await addDoc(collection(db, "posts"), {
                     name: user.displayName,
@@ -339,9 +102,7 @@
                 document.getElementById('postContent').value = '';
                 fileInput.value = '';
                 loadFeed();
-            } catch (e) {
-                console.error("Error posting:", e);
-            }
+            } catch(e) { console.error(e); }
         };
 
         async function loadFeed() {
@@ -349,47 +110,20 @@
             try {
                 const querySnapshot = await getDocs(collection(db, "posts"));
                 feedContainer.innerHTML = "";
-                if(querySnapshot.empty) {
-                    feedContainer.innerHTML = "<p style='color:var(--text-muted);'>No posts found. Share your first clip!</p>";
-                    return;
-                }
+                if(querySnapshot.empty) { feedContainer.innerHTML = "<p style='color:var(--text-muted);'>No posts found.</p>"; return; }
                 querySnapshot.forEach((doc) => {
                     const post = doc.data();
-                    let mediaHtml = "";
-                    if(post.media) {
-                        if(post.mediaType && post.mediaType.includes("video")) {
-                            mediaHtml = `<video src="${post.media}" controls class="media-preview"></video>`;
-                        } else {
-                            mediaHtml = `<img src="${post.media}" class="media-preview">`;
-                        }
-                    }
+                    let mediaHtml = post.media ? (post.mediaType && post.mediaType.includes("video") ? `<video src="${post.media}" controls class="media-preview"></video>` : `<img src="${post.media}" class="media-preview">`) : "";
                     feedContainer.innerHTML += `
                         <div style="background:#050508; padding:12px; border-radius:6px; margin-top:10px; border:1px solid var(--border-glow);">
                             <strong style="color:var(--neon-cyan);">${post.name}</strong>
-                            <p style="margin:6px 0 10px 0; font-size:0.95rem;">${post.text}</p>
+                            <p style="margin:6px 0 10px 0;">${post.text}</p>
                             ${mediaHtml}
                         </div>`;
                 });
-            } catch (e) {
-                feedContainer.innerHTML = "<p style='color:var(--text-muted);'>Configure your Firestore database in Firebase Console to view live feeds.</p>";
-            }
+            } catch(e) { feedContainer.innerHTML = "<p style='color:var(--text-muted);'>Connect Firestore to view posts.</p>"; }
         }
-
-        window.sendFriendRequest = function() {
-            const username = document.getElementById('searchUser').value;
-            if(!username) return;
-            alert(`Friend request sent to ${username}! They must accept before secure WhatsApp chat unlocks.`);
-            document.getElementById('searchUser').value = '';
-        }
-
-        window.sendChatMessage = function() {
-            const input = document.getElementById('chatMessageInput');
-            const chatBox = document.getElementById('activeChatBox');
-            if(!input.value) return;
-            chatBox.innerHTML += `<div style="margin-bottom:6px;"><strong style="color:var(--neon-cyan);">You:</strong> ${input.value}</div>`;
-            input.value = '';
-            chatBox.scrollTop = chatBox.scrollHeight;
-        }
+        loadFeed();
     </script>
 </body>
 </html>
