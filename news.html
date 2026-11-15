@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GAMERSNET - News & Feed</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --accent-color: #38bdf8;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        header {
+            background: linear-gradient(90deg, #1e293b, #0f172a);
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #334155;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+        nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            margin-left: 20px;
+            font-weight: 600;
+        }
+        nav a:hover, nav a.active {
+            color: var(--accent-color);
+        }
+        main {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+            flex: 1;
+            width: 100%;
+            box-sizing: border-box;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+        }
+        .section-card {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            padding: 20px;
+            border: 1px solid #334155;
+            margin-bottom: 20px;
+        }
+        h2 { color: var(--accent-color); font-size: 1.2rem; margin-top: 0; }
+        textarea {
+            width: 100%;
+            padding: 10px;
+            background: #0f172a;
+            border: 1px solid #334155;
+            color: white;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: var(--accent-color);
+            color: #0f172a;
+            border: none;
+            padding: 10px 20px;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        .news-item {
+            font-size: 0.9rem;
+            border-bottom: 1px solid #334155;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+            color: var(--text-muted);
+        }
+        .news-item strong { color: var(--text-main); }
+        .news-item:last-child { border-bottom: none; margin-bottom: 0; }
+        .post-card {
+            background: #0f172a;
+            padding: 12px;
+            border-radius: 6px;
+            margin-top: 10px;
+            border: 1px solid #334155;
+            font-size: 0.95rem;
+        }
+        footer {
+            text-align: center;
+            padding: 1.5rem;
+            background-color: #0b1120;
+            color: var(--text-muted);
+            border-top: 1px solid #1e293b;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="index.html" class="logo">⚡ GAMERSNET</a>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="news.html" class="active">News & Feed</a>
+            <a href="chat.html">Live Chat</a>
+        </nav>
+    </header>
+
+    <main>
+        <div>
+            <div class="section-card" id="postBox" style="display:none;">
+                <h2>Share Your Win / Post to Feed</h2>
+                <textarea id="postContent" placeholder="Show off your high score or match victory..."></textarea>
+                <button onclick="submitPost()">Post Update</button>
+            </div>
+
+            <div class="section-card">
+                <h2>Gamer Community Feed</h2>
+                <div id="feedContainer">
+                    <p style="color: var(--text-muted);">Sign in on the home page to share and view community posts!</p>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <div class="section-card">
+                <h2>🔥 Live Ticker</h2>
+                <div class="news-item">
+                    <strong>Gaming:</strong> Major patch update drops today with new seasonal map rotations.
+                </div>
+                <div class="news-item">
+                    <strong>Sports:</strong> Esports World Championship grand finals scheduled for this weekend.
+                </div>
+                <div class="news-item">
+                    <strong>Movies:</strong> Highly anticipated sci-fi sequel blockbuster trailer released online.
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 GAMERSNET Hub</p>
+    </footer>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+          apiKey: "AIzaSyBLjm_Fm3rf6xArbVQm8NsHeMZAQAtYho8",
+          authDomain: "gamersnet-b9c7d.firebaseapp.com",
+          projectId: "gamersnet-b9c7d",
+          storageBucket: "gamersnet-b9c7d.firebasestorage.app",
+          messagingSenderId: "706719567863",
+          appId: "1:706719567863:web:6bff33772a52af925368f2",
+          measurementId: "G-M5F43GTGS2"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                document.getElementById('postBox').style.display = 'block';
+                loadFeed();
+            } else {
+                document.getElementById('postBox').style.display = 'none';
+            }
+        });
+
+        window.submitPost = async function() {
+            const content = document.getElementById('postContent').value;
+            const user = auth.currentUser;
+            if (!content || !user) return;
+
+            try {
+                await addDoc(collection(db, "posts"), {
+                    name: user.displayName,
+                    text: content,
+                    timestamp: Date.now()
+                });
+                document.getElementById('postContent').value = '';
+                loadFeed();
+            } catch (e) {
+                console.error("Error adding post: ", e);
+            }
+        };
+
+        async function loadFeed() {
+            const feedContainer = document.getElementById('feedContainer');
+            try {
+                const querySnapshot = await getDocs(collection(db, "posts"));
+                feedContainer.innerHTML = "";
+                if(querySnapshot.empty) {
+                    feedContainer.innerHTML = "<p style='color:var(--text-muted);'>No posts yet. Be the first to share your win!</p>";
+                    return;
+                }
+                querySnapshot.forEach((doc) => {
+                    const post = doc.data();
+                    feedContainer.innerHTML += `<div class="post-card"><strong>${post.name}:</strong> ${post.text}</div>`;
+                });
+            } catch (e) {
+                feedContainer.innerHTML = "<p style='color:var(--text-muted);'>Database not connected yet. Create your Firestore database in Firebase console!</p>";
+            }
+        }
+    </script>
+</body>
+</html>
