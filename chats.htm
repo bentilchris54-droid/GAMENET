@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GAMERSNET - Secure Chats</title>
+    <style>
+        :root {
+            --bg-deep: #050508;
+            --bg-card: #0c0d14;
+            --border-glow: #1f2235;
+            --neon-cyan: #00f0ff;
+            --text-main: #f0f2f5;
+            --text-muted: #8b9bb4;
+        }
+        body { font-family: 'Segoe UI', Roboto, sans-serif; background-color: var(--bg-deep); color: var(--text-main); margin: 0; padding: 0; }
+        header { background: var(--bg-card); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-glow); }
+        .logo { font-size: 1.5rem; font-weight: 900; color: var(--neon-cyan); text-decoration: none; }
+        nav a { color: var(--text-muted); margin-left: 20px; text-decoration: none; font-weight: bold; }
+        nav a:hover, nav a.active { color: var(--neon-cyan); }
+        .container { max-width: 800px; margin: 2rem auto; padding: 0 1rem; }
+        .panel { background: var(--bg-card); border: 1px solid var(--border-glow); border-radius: 8px; padding: 20px; margin-bottom: 20px; }
+        input { width: 100%; padding: 12px; background: #050508; border: 1px solid var(--border-glow); color: white; border-radius: 6px; margin-bottom: 10px; box-sizing: border-box; }
+        .action-btn { background: var(--neon-cyan); color: var(--bg-deep); border: none; padding: 10px 20px; font-weight: bold; border-radius: 6px; cursor: pointer; }
+        .chat-layout { display: grid; grid-template-columns: 1fr 2fr; height: 450px; background: #050508; border: 1px solid var(--border-glow); border-radius: 6px; overflow: hidden; }
+        .sidebar-list { border-right: 1px solid var(--border-glow); overflow-y: auto; padding: 10px; }
+        .chat-window { display: flex; flex-direction: column; justify-content: space-between; padding: 15px; }
+        .message-box { flex: 1; overflow-y: auto; margin-bottom: 10px; font-size: 0.9rem; color: var(--text-muted); }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="index.html" class="logo">GAMERSNET</a>
+        <nav>
+            <a href="index.html">Feed</a>
+            <a href="news.html">News</a>
+            <a href="chats.html" class="active">Chats</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="panel">
+            <h2>WhatsApp-Style Secure Chat & Friends</h2>
+            <div style="margin-bottom: 15px;">
+                <input type="text" id="searchUser" placeholder="Search gamer by username..." style="display:inline-block; width:75%;">
+                <button class="action-btn" onclick="sendFriendRequest()" style="width:22%;">Add</button>
+            </div>
+            <div class="chat-layout">
+                <div class="sidebar-list" id="friendsList">
+                    <p style="font-size:0.8rem; color:var(--text-muted);">Accepted Friends (0)</p>
+                </div>
+                <div class="chat-window">
+                    <div class="message-box" id="activeChatBox">
+                        <div>Select a friend to start chatting like WhatsApp.</div>
+                    </div>
+                    <div style="display:flex; gap:5px;">
+                        <input type="text" id="chatMessageInput" placeholder="Type a message..." style="margin:0;">
+                        <button class="action-btn" onclick="sendChatMessage()">Send</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        window.sendFriendRequest = function() {
+            const username = document.getElementById('searchUser').value;
+            if(!username) return;
+            alert(`Friend request sent to ${username}! They must accept before secure WhatsApp chat unlocks.`);
+            document.getElementById('searchUser').value = '';
+        }
+
+        window.sendChatMessage = function() {
+            const input = document.getElementById('chatMessageInput');
+            const chatBox = document.getElementById('activeChatBox');
+            if(!input.value) return;
+            chatBox.innerHTML += `<div style="margin-bottom:6px;"><strong style="color:var(--neon-cyan);">You:</strong> ${input.value}</div>`;
+            input.value = '';
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+    </script>
+</body>
+</html>￼Enter
